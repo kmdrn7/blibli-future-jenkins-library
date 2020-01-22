@@ -2,7 +2,11 @@
 def call(Map params){
     def deliver = libraryResource 'deliver.sh'
     pipeline {
-        agent any
+        agent {
+            node {
+                label 'slave'
+            }
+        }
         stages {
             stage('Build') {
                 steps {
