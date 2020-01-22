@@ -19,8 +19,13 @@ def call(Map params){
                 }
             }
             stage('Deliver') {
+                def deliver = libraryResouce 'deliver.sh'
                 steps {
-                    sh "sh scripts/deliver.sh ${params.server}"
+                    withEnv([
+                        'SERVER='+params.server
+                    ]){
+                        sh libraryResouce('deliver.sh')
+                    }
                 }
             }
         }
