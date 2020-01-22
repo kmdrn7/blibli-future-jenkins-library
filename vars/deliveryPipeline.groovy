@@ -20,7 +20,7 @@ def call(Map params){
             }
             stage('Deliver') {
                 steps {
-                    sh 'sh scripts/deliver.sh ${params.server}'
+                    sh "sh scripts/deliver.sh ${params.server}"
                 }
             }
         }
