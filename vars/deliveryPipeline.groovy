@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-def call(){
+def call(Map params){
     pipeline {
         agent any
         stages {
@@ -20,7 +20,7 @@ def call(){
             }
             stage('Deliver') {
                 steps {
-                    sh 'sh scripts/deliver.sh'
+                    sh 'sh scripts/deliver.sh {params.server}'
                 }
             }
         }
