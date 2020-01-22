@@ -20,7 +20,7 @@ def call(){
             }
             stage('Deliver') {
                 steps {
-                    sh 'sh jenkins/scripts/deliver.sh'
+                    sh 'sh scripts/deliver.sh'
                 }
             }
         }
