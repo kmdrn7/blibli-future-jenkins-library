@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 def call(Map params){
+    def deliver = libraryResouce 'deliver.sh'
     pipeline {
         agent any
         stages {
@@ -19,12 +20,11 @@ def call(Map params){
                 }
             }
             stage('Deliver') {
-                def deliver = libraryResouce 'deliver.sh'
                 steps {
                     withEnv([
                         'SERVER='+params.server
                     ]){
-                        sh libraryResouce('deliver.sh')
+                        sh(deliver)
                     }
                 }
             }
