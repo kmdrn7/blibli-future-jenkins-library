@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 def call(Map params){
-    def deliver = libraryResouce 'deliver.sh'
+    def deliver = libraryResource 'deliver.sh'
     pipeline {
         agent any
         stages {
