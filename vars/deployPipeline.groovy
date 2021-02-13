@@ -3,6 +3,7 @@ def call(Map params){
     def build = libraryResource 'build.sh'
     def deliver = libraryResource 'deliver.sh'
     pipeline {
+        agent any
         stages {
             stage('Build and Push Docker Image') {
                 steps {
