@@ -49,6 +49,30 @@ def call(Map params){
                     }
                 }
             }
+            stage('Deploy Application to Kubernetes') {
+                agent {
+                    docker {
+                        image 'kmdr7/helm-kubectl:latest'
+                    }
+                }
+                steps {
+                    withCredentials([
+                        usernamePassword(
+                            credentialsId: 'cred-kubernetes',
+                            usernameVariable: 'KUBE_ENDPOINT',
+                            passwordVariable: 'KUBE_TOKEN'
+                        )
+                    ]) {
+                        withEnv([
+                            'CONTAINER_REGISTRY='+params.containerRegistry,
+                            'CONTAINER_IMAGE='+params.containerImage,
+                            'CONTAINER_VERSION='+params.containerVersion,
+                        ]){
+                            sh(deliver)
+                        }
+                    }
+                }
+            }
         }
     }
 }
