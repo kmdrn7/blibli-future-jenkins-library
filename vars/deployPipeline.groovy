@@ -24,6 +24,24 @@ def call(Map params){
                     }
                 }
             }
+            stage('Package Application with HELM') {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'cred-kubernetes',
+                        usernameVariable: 'KUBE_ENDPOINT',
+                        passwordVariable: 'KUBE_TOKEN'
+                    )
+                ]) {
+                    docker.image('kmdr7/helm-kubectl:latest').inside {
+                        sh '''
+                        kubectl config set-cluster k8s --server="${KUBE_ENDPOINT}" \
+                        && kubectl config set-credentials jenkins --token="${KUBE_TOKEN}" \
+                        && kubectl config set-context default --cluster=k8s --user=jenkins \
+                        && kubectl config use-context default'
+                        '''
+                    }
+                }
+            }
         }
     }
 }
