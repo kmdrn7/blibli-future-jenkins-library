@@ -1,6 +1,6 @@
-echo "============================================================"
+echo "==============================="
 echo "+ Running as $(whoami) user."
-echo "============================================================"
+echo "==============================="
 echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin
 docker build .
   --tag ${CONTAINER_REGISTRY}/${CONTAINER_IMAGE}:${CONTAINER_VERSION}
