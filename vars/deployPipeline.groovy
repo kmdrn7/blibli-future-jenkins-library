@@ -28,7 +28,7 @@ def call(Map params){
             stage('Package Application with HELM') {
                 agent {
                     docker {
-                        image 'dtzar/helm-kubectl:3.5.2'
+                        image 'kmdr7/helm-kubectl:latest'
                     }
                 }
                 steps {
