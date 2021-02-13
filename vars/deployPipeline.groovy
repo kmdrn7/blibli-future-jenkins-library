@@ -14,13 +14,13 @@ def call(Map params){
                             passwordVariable: 'DOCKER_PASSWORD'
                         )
                     ]) {
-                        sh(build)
-                        // withEnv([
-                        //     'CONTAINER_REGISTRY='+params.containerRegistry,
-                        //     'CONTAINER_IMAGE='+params.containerImage,
-                        //     'CONTAINER_VERSION='+params.containerVersion,
-                        // ]){
-                        // }
+                        withEnv([
+                            'CONTAINER_REGISTRY='+params.containerRegistry,
+                            'CONTAINER_IMAGE='+params.containerImage,
+                            'CONTAINER_VERSION='+params.containerVersion,
+                        ]){
+                            sh(build)
+                        }
                     }
                 }
             }
