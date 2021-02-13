@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 def call(Map params){
     def build = libraryResource 'build.sh'
-    // def packageAndShip = libraryResource 'packageAndShip.sh'
+    def packageAndShip = libraryResource 'packageAndShip.sh'
     def deliver = libraryResource 'deliver.sh'
     pipeline {
         agent any
@@ -39,12 +39,7 @@ def call(Map params){
                             passwordVariable: 'KUBE_TOKEN'
                         )
                     ]) {
-                        sh '''
-                        kubectl config set-cluster k8s --server="${KUBE_ENDPOINT}" \
-                        && kubectl config set-credentials jenkins --token="${KUBE_TOKEN}" \
-                        && kubectl config set-context default --cluster=k8s --user=jenkins \
-                        && kubectl config use-context default
-                        '''
+                        sh(packageAndShip)
                     }
                 }
             }
