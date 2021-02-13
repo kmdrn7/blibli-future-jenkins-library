@@ -39,7 +39,13 @@ def call(Map params){
                             passwordVariable: 'KUBE_TOKEN'
                         )
                     ]) {
-                        sh(packageAndShip)
+                        withEnv([
+                            'CONTAINER_REGISTRY='+params.containerRegistry,
+                            'CONTAINER_IMAGE='+params.containerImage,
+                            'CONTAINER_VERSION='+params.containerVersion,
+                        ]){
+                            sh(packageAndShip)
+                        }
                     }
                 }
             }
