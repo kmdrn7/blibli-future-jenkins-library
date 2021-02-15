@@ -2,6 +2,7 @@
 def call(Map params){
     def build = libraryResource 'build.sh'
     def packageAndShip = libraryResource 'packageAndShip.sh'
+    def prepareDeliver = libraryResource 'prepareDeliver.sh'
     def deliver = libraryResource 'deliver.sh'
     pipeline {
         agent any
@@ -32,20 +33,12 @@ def call(Map params){
                     }
                 }
                 steps {
-                    withCredentials([
-                        usernamePassword(
-                            credentialsId: 'cred-kubernetes',
-                            usernameVariable: 'KUBE_ENDPOINT',
-                            passwordVariable: 'KUBE_TOKEN'
-                        )
-                    ]) {
-                        withEnv([
-                            'CONTAINER_REGISTRY='+params.containerRegistry,
-                            'CONTAINER_IMAGE='+params.containerImage,
-                            'CONTAINER_VERSION='+params.containerVersion,
-                        ]){
-                            sh(packageAndShip)
-                        }
+                    withEnv([
+                        'CONTAINER_REGISTRY='+params.containerRegistry,
+                        'CONTAINER_IMAGE='+params.containerImage,
+                        'CONTAINER_VERSION='+params.containerVersion,
+                    ]){
+                        sh(packageAndShip)
                     }
                 }
             }
@@ -67,7 +60,9 @@ def call(Map params){
                             'CONTAINER_REGISTRY='+params.containerRegistry,
                             'CONTAINER_IMAGE='+params.containerImage,
                             'CONTAINER_VERSION='+params.containerVersion,
+                            'NAMESPACE='+params.namespace,
                         ]){
+                            sh(prepareDeliver)
                             sh(deliver)
                         }
                     }
