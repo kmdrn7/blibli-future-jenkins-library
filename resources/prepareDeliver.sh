@@ -6,4 +6,9 @@ kubectl config set-cluster k8s --server=${KUBE_ENDPOINT} --insecure-skip-tls-ver
 && kubectl config use-context default
 # ---
 # Create namespace if not exist -----------------------------------------------------------
-kubectl create namespace ${NAMESPACE}
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+EOF
