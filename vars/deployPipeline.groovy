@@ -52,7 +52,7 @@ def call(Map params){
                     container('helm-kubectl') {
                         withCredentials([
                             usernamePassword(
-                                credentialsId: 'cred-kubernetes',
+                                credentialsId: 'cred-kube',
                                 usernameVariable: 'KUBE_ENDPOINT',
                                 passwordVariable: 'KUBE_TOKEN'
                             )
