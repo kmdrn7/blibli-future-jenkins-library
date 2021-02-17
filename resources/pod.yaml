@@ -17,13 +17,3 @@ spec:
       hostPath:
         path: /var/run/docker.sock
         mountPath: /var/run/docker.sock
-  affinity:
-    nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 1
-        preference:
-          matchExpressions:
-          - key: kubernetes.io/hostname
-            operator: In
-            values:
-              - kube-worker-1
