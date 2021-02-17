@@ -1,19 +1,29 @@
----
 apiVersion: v1
 kind: Pod
 spec:
   containers:
     - name: helm-kubectl
       image: kmdr7/helm-kubectl:latest
-      command: ["tail", "-f", "/dev/null"]
+      command: ["tail", "-f", "/dev/null"]  # this or any command that is bascially a noop is required, this is so that you don't overwrite the entrypoint of the base container
+      imagePullPolicy: Always
     - name: docker
       image: docker:18.06.1
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
       volumeMounts:
         - name: docker
+          mountPath: /var/run/docker.sock
   volumes:
     - name: docker
       hostPath:
         path: /var/run/docker.sock
-        mountPath: /var/run/docker.sock
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+              - kube-worker-1
