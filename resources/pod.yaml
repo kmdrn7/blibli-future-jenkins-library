@@ -12,17 +12,17 @@ spec:
       imagePullPolicy: Always
       volumeMounts:
         - name: docker
-          mountPath: /var/run/docker.sock
+  volumes:
+    - name: docker
+      hostPath:
+        path: /var/run/docker.sock
+        mountPath: /var/run/docker.sock
   affinity:
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                  - kube-worker-1
-  volumes:
-    - name: docker
-      hostPath:
-        path: /var/run/docker.sock
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - kube-worker-1
