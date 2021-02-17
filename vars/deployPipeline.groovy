@@ -5,7 +5,7 @@ def call(Map params){
     def packageAndShip = libraryResource 'packageAndShip.sh'
     def prepareDeliver = libraryResource 'prepareDeliver.sh'
     def deliver = libraryResource 'deliver.sh'
-    def podYaml = libraryResource 'kaniko.yaml'
+    def podYaml = libraryResource 'pod.yaml'
     pipeline {
         agent {
             kubernetes {
