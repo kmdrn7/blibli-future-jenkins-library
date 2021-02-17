@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 def call(Map params){
     def build = libraryResource 'build.sh'
+    def buildKaniko = libraryResource 'buildKaniko.sh'
     def packageAndShip = libraryResource 'packageAndShip.sh'
     def prepareDeliver = libraryResource 'prepareDeliver.sh'
     def deliver = libraryResource 'deliver.sh'
@@ -30,15 +31,7 @@ def call(Map params){
                             'CONTAINER_VERSION='+params.containerVersion,
                         ]){
                             // sh(build)
-                            sh """
-                            echo '{"auths":{"https://index.docker.io/v1/":{"auth":"'$(echo -n ${DOCKER_USER}:${DOCKER_PASSWORD} | base64)'"}}}' > /kaniko/.docker/config.json;
-                            /kaniko/executor \
-                                --dockerfile `pwd`/Dockerfile \
-                                --context `pwd` \
-                                --destination=${CONTAINER_REGISTRY}/${CONTAINER_IMAGE}:${CONTAINER_VERSION}
-                                --destination=${CONTAINER_REGISTRY}/${CONTAINER_IMAGE}:latest
-                                ;
-                            """
+                            sh (buildKaniko)
                         }
                     }
                 }
