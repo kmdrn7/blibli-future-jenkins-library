@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
 def call(Map params){
     def build = libraryResource 'build.sh'
-    def buildKaniko = libraryResource 'buildKaniko.sh'
     def packageAndShip = libraryResource 'packageAndShip.sh'
     def prepareDeliver = libraryResource 'prepareDeliver.sh'
     def deliver = libraryResource 'deliver.sh'
