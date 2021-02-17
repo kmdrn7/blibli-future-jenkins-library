@@ -5,14 +5,14 @@ def call(Map params){
     def packageAndShip = libraryResource 'packageAndShip.sh'
     def prepareDeliver = libraryResource 'prepareDeliver.sh'
     def deliver = libraryResource 'deliver.sh'
-    def kanikoYaml = libraryResource 'kaniko.yaml'
+    def podYaml = libraryResource 'kaniko.yaml'
     pipeline {
         agent {
             kubernetes {
                 label 'jenkins-agent'
                 idleMinutes 10
-                defaultContainer 'builder'
-                yaml kanikoYaml
+                defaultContainer 'docker'
+                yaml podYaml
             }
         }
         stages {
@@ -30,8 +30,7 @@ def call(Map params){
                             'CONTAINER_IMAGE='+params.containerImage,
                             'CONTAINER_VERSION='+params.containerVersion,
                         ]){
-                            // sh(build)
-                            sh (buildKaniko)
+                            sh(build)
                         }
                     }
                 }
