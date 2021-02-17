@@ -9,7 +9,6 @@ def call(Map params){
         agent {
             kubernetes {
                 label 'jenkins-agent'
-                idleMinutes 10
                 defaultContainer 'docker'
                 yaml podYaml
             }
