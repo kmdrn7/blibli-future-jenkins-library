@@ -8,27 +8,28 @@ def call(Map params){
     pipeline {
         agent {
             kubernetes {
-                label 'jenkins-agent'
-                defaultContainer 'docker'
+                label 'jenkins-slave'
                 yaml podYaml
             }
         }
         stages {
             stage('Build and Push Docker Image') {
                 steps {
-                    withCredentials([
-                        usernamePassword(
-                            credentialsId: 'cred-docker',
-                            usernameVariable: 'DOCKER_USER',
-                            passwordVariable: 'DOCKER_PASSWORD'
-                        )
-                    ]) {
-                        withEnv([
-                            'CONTAINER_REGISTRY='+params.containerRegistry,
-                            'CONTAINER_IMAGE='+params.containerImage,
-                            'CONTAINER_VERSION='+params.containerVersion,
-                        ]){
-                            sh(build)
+                    container('helm-kubectl') {
+                        withCredentials([
+                            usernamePassword(
+                                credentialsId: 'cred-docker',
+                                usernameVariable: 'DOCKER_USER',
+                                passwordVariable: 'DOCKER_PASSWORD'
+                            )
+                        ]) {
+                            withEnv([
+                                'CONTAINER_REGISTRY='+params.containerRegistry,
+                                'CONTAINER_IMAGE='+params.containerImage,
+                                'CONTAINER_VERSION='+params.containerVersion,
+                            ]){
+                                sh(build)
+                            }
                         }
                     }
                 }
