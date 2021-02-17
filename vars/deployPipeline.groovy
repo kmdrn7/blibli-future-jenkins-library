@@ -9,6 +9,7 @@ def call(Map params){
         agent {
             kubernetes {
                 label 'jenkins-slave'
+                defaultContainer 'docker'
                 yaml podYaml
             }
         }
