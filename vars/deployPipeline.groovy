@@ -15,7 +15,7 @@ def call(Map params){
         stages {
             stage('Build and Push Docker Image') {
                 steps {
-                    container('helm-kubectl') {
+                    container('docker') {
                         withCredentials([
                             usernamePassword(
                                 credentialsId: 'cred-docker',
